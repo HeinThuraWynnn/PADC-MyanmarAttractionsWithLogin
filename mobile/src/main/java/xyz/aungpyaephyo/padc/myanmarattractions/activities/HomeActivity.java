@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -15,6 +17,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.Pair;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +48,7 @@ import xyz.aungpyaephyo.padc.myanmarattractions.views.holders.AttractionViewHold
 
 public class HomeActivity extends AppCompatActivity
         implements AttractionViewHolder.ControllerAttractionItem,
+        NavigationView.OnNavigationItemSelectedListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
     @BindView(R.id.rv_attractions)
@@ -55,6 +60,11 @@ public class HomeActivity extends AppCompatActivity
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
+    @BindView(R.id.iv_drawer_menu)
+    ImageView iv_drawer_menu;
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private AttractionAdapter mAttractionAdapter;
 
     private BroadcastReceiver mDataLoadedBroadcastReceiver = new BroadcastReceiver() {
@@ -75,6 +85,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this, this);
 
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +93,19 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        Menu leftMenu = navigationView.getMenu();
+        navigationView.setNavigationItemSelectedListener(this);
+
+        iv_drawer_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
@@ -93,6 +117,7 @@ public class HomeActivity extends AppCompatActivity
         rvAttractions.setLayoutManager(new GridLayoutManager(getApplicationContext(), gridColumnSpanCount));
 
         getSupportLoaderManager().initLoader(MyanmarAttractionsConstants.ATTRACTION_LIST_LOADER, null, this);
+
     }
 
     @Override
@@ -109,9 +134,12 @@ public class HomeActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_settings:
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -191,4 +219,29 @@ public class HomeActivity extends AppCompatActivity
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+    @Override
+    public boolean onNavigationItemSelected(final MenuItem menuItem) {
+        menuItem.setChecked(true);
+        drawerLayout.closeDrawers();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                switch (menuItem.getItemId()) {
+                    case R.id.left_menu_profile:
+                        //navigateToProfile();
+                        break;
+                    case R.id.left_menu_logout:
+                        //navigateToLogout();
+                        break;
+
+                }
+            }
+        }, 100); //to close drawer smoothly.
+
+        return true;
+    }
+
+
 }
