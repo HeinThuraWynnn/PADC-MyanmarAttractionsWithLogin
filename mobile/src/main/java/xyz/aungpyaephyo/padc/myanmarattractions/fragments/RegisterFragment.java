@@ -14,6 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.util.Calendar;
 
 import xyz.aungpyaephyo.padc.myanmarattractions.MyanmarAttractionsApp;
 import xyz.aungpyaephyo.padc.myanmarattractions.R;
@@ -21,8 +26,9 @@ import xyz.aungpyaephyo.padc.myanmarattractions.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
+    private EditText etDateOfBirth;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -32,6 +38,29 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
+
+        //For Date of birth
+
+        etDateOfBirth = (EditText) view.findViewById(R.id.et_date_of_birth);
+
+        etDateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    showThirdPartyDatePicker();
+                    //showDatePicker();
+                }
+            }
+        });
+
+        etDateOfBirth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showThirdPartyDatePicker();
+                //showDatePicker();
+            }
+        });
+
 
         //For Spinner
         Spinner spinner = (Spinner) view.findViewById(R.id.spinnerCountry);
@@ -73,5 +102,23 @@ public class RegisterFragment extends Fragment {
             }
         });
         return view;
+    }
+    private void showThirdPartyDatePicker(){
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog thirdPartyDatePicker = DatePickerDialog.newInstance(
+                this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        thirdPartyDatePicker.show(getActivity().getFragmentManager(), "ThirdPartyDatePicker");
+
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String str =  year + "-" + monthOfYear + "-" + dayOfMonth;
+        Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+        etDateOfBirth.setText(str);
     }
 }

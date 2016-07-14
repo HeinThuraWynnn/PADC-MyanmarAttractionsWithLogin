@@ -35,6 +35,20 @@
                 android:layout_marginBottom="@dimen/margin_medium_2">
 
                 <EditText
+                    android:id="@+id/et_email_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/input_box_height"
+                    android:hint="@string/lbl_email"
+                    android:textColorHint="@color/accent" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium_2">
+
+                <EditText
                     android:id="@+id/et_password_reg"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/input_box_height"
@@ -50,11 +64,11 @@
                 android:layout_marginBottom="@dimen/margin_medium_2">
 
                 <EditText
-                    android:id="@+id/et_email_reg"
+                    android:id="@+id/et_date_of_birth"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/input_box_height"
-                    android:hint="@string/lbl_email"
-                    android:textColorHint="@color/accent" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/hint_dob" />
 
             </android.support.design.widget.TextInputLayout>
 

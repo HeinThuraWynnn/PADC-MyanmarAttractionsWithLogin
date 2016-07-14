@@ -3,15 +3,20 @@ package xyz.aungpyaephyo.padc.myanmarattractions.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import butterknife.BindView;
 import xyz.aungpyaephyo.padc.myanmarattractions.MyanmarAttractionsApp;
 import xyz.aungpyaephyo.padc.myanmarattractions.R;
 import xyz.aungpyaephyo.padc.myanmarattractions.fragments.LoginFragment;
 import xyz.aungpyaephyo.padc.myanmarattractions.fragments.RegisterFragment;
 
 public class LoginActivity extends AppCompatActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     public static Intent newIntent() {
         Intent intent = new Intent(MyanmarAttractionsApp.getContext(), LoginActivity.class);
@@ -22,6 +27,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        toolbar.setTitle(R.string.home_screen_title);
+        setSupportActionBar(toolbar);
 
         Button btnLogin = (Button) findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(new View.OnClickListener(){
