@@ -26,4 +26,5 @@
 
     <dimen name="status_bar_height">25dp</dimen>
     <dimen name="screen_title_size">22sp</dimen>
+    <dimen name="input_box_height">48dp</dimen>
 </resources>

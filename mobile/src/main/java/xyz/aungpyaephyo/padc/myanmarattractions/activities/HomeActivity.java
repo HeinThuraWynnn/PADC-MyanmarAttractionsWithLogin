@@ -67,6 +67,12 @@ public class HomeActivity extends AppCompatActivity
     private NavigationView navigationView;
     private AttractionAdapter mAttractionAdapter;
 
+
+    public static Intent newIntent() {
+        Intent intent = new Intent(MyanmarAttractionsApp.getContext(), HomeActivity.class);
+        return intent;
+    }
+
     private BroadcastReceiver mDataLoadedBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -233,7 +239,7 @@ public class HomeActivity extends AppCompatActivity
                         //navigateToProfile();
                         break;
                     case R.id.left_menu_logout:
-                        //navigateToLogout();
+                        navigateToLogin();
                         break;
 
                 }
@@ -243,5 +249,9 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    private void navigateToLogin() {
+        Intent intent = LoginActivity.newIntent();
+        startActivity(intent);
+    }
 
 }
