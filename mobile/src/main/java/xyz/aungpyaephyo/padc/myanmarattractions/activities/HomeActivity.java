@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ import xyz.aungpyaephyo.padc.myanmarattractions.data.models.AttractionModel;
 import xyz.aungpyaephyo.padc.myanmarattractions.data.persistence.AttractionsContract;
 import xyz.aungpyaephyo.padc.myanmarattractions.data.vos.AttractionVO;
 import xyz.aungpyaephyo.padc.myanmarattractions.events.DataEvent;
+import xyz.aungpyaephyo.padc.myanmarattractions.fragments.LoginFragment;
+import xyz.aungpyaephyo.padc.myanmarattractions.fragments.RegisterFragment;
 import xyz.aungpyaephyo.padc.myanmarattractions.utils.MyanmarAttractionsConstants;
 import xyz.aungpyaephyo.padc.myanmarattractions.views.holders.AttractionViewHolder;
 
@@ -123,7 +126,6 @@ public class HomeActivity extends AppCompatActivity
         rvAttractions.setLayoutManager(new GridLayoutManager(getApplicationContext(), gridColumnSpanCount));
 
         getSupportLoaderManager().initLoader(MyanmarAttractionsConstants.ATTRACTION_LIST_LOADER, null, this);
-
     }
 
     @Override

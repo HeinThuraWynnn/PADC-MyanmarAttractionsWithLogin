@@ -19,5 +19,7 @@
     <string name="lbl_email">Email</string>
     <string name="lbl_register">Register</string>
     <string name="hint_dob">Date of birth</string>
+    <string name="dummy_username">John Doe</string>
+    <string name="dummy_email">john.doe@mymail.com</string>
 
 </resources>

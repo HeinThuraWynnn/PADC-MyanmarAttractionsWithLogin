@@ -9,19 +9,23 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import xyz.aungpyaephyo.padc.myanmarattractions.data.agents.AttractionDataAgent;
+import xyz.aungpyaephyo.padc.myanmarattractions.data.agents.UserDataAgent;
 import xyz.aungpyaephyo.padc.myanmarattractions.data.models.AttractionModel;
+import xyz.aungpyaephyo.padc.myanmarattractions.data.models.UserModel;
 import xyz.aungpyaephyo.padc.myanmarattractions.data.responses.AttractionListResponse;
+import xyz.aungpyaephyo.padc.myanmarattractions.data.responses.LoginResponse;
 import xyz.aungpyaephyo.padc.myanmarattractions.utils.CommonInstances;
 import xyz.aungpyaephyo.padc.myanmarattractions.utils.MyanmarAttractionsConstants;
 
 /**
  * Created by aung on 7/9/16.
  */
-public class RetrofitDataAgent implements AttractionDataAgent {
+public class RetrofitDataAgent implements AttractionDataAgent, UserDataAgent {
 
     private static RetrofitDataAgent objInstance;
 
     private final AttractionApi theApi;
+    private final LoginApi loginApi;
 
     private RetrofitDataAgent() {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -37,6 +41,7 @@ public class RetrofitDataAgent implements AttractionDataAgent {
                 .build();
 
         theApi = retrofit.create(AttractionApi.class);
+        loginApi = retrofit.create(LoginApi.class);
     }
 
     public static RetrofitDataAgent getInstance() {
@@ -65,5 +70,31 @@ public class RetrofitDataAgent implements AttractionDataAgent {
                 AttractionModel.getInstance().notifyErrorInLoadingAttractions(throwable.getMessage());
             }
         });
+    }
+
+    @Override
+    public void loadUser() {
+        Call<LoginResponse> loadUserCall = loginApi.loadLogin(MyanmarAttractionsConstants.ACCESS_TOKEN);
+        loadUserCall.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+                if (loginResponse == null) {
+                    UserModel.getInstance().notifyErrorInLoadingUser(response.message());
+                } else {
+                    UserModel.getInstance().notifyUserLoaded(loginResponse.getUser());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable throwable) {
+                UserModel.getInstance().notifyErrorInLoadingUser(throwable.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void registerUser() {
+
     }
 }
